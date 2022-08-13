@@ -3,6 +3,7 @@
 	"displayName": "show-settings-vscode",
 	"description": "Button to open .vscode/settings.json",
 	"author": "Lucas Colombo <lucasncolombo@gmail.com>",
+	"publisher": "lucaslabs",
 	"repository": "https://github.com/lucas-labs/show-settings-vscode-extension",
 	"version": "1.0.0",
 	"engines": {
@@ -17,6 +18,7 @@
 	"main": "./out/extension.js",
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
+		"package": "vsce package --allow-star-activation",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile && npm run lint",
