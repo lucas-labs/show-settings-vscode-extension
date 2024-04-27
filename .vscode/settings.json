@@ -1,15 +1,15 @@
 {
   "typescript.tsc.autoDetect": "off",
   "files.exclude": {
-    "vsc-extension-quickstart.md": true,
-    "tsconfig.json": true,
-    "CHANGELOG.md": true,
-    "out": true,
-    "node_modules": true,
-    ".git": true,
-    ".vscode": true,
-    "package-lock.json": true,
-    ".gitignore": true,
-    "src\\test": true
+    // "vsc-extension-quickstart.md": true,
+    // "tsconfig.json": true,
+    // "CHANGELOG.md": true,
+    // "out": true,
+    // "node_modules": true,
+    // ".git": true,
+    // ".vscode": true,
+    // "package-lock.json": true,
+    // ".gitignore": true,
+    // "src\\test": true
   }
 }

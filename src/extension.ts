@@ -1,16 +1,16 @@
 import path = require('path');
 import * as vscode from 'vscode';
 
-let myStatusBarItem: vscode.StatusBarItem;
+let showProjectSettingsBtn: vscode.StatusBarItem;
 
 export function activate({ subscriptions }: vscode.ExtensionContext) {
     const logger = vscode.window.createOutputChannel(
         '@lucas-labs/show-settings'
     );
 
-    const commandId = 'show-settings-vscode.open-settings-file';
+    const showProjSettingsCmd = 'show-settings-vscode.open-settings-file';
     subscriptions.push(
-        vscode.commands.registerCommand(commandId, () => {
+        vscode.commands.registerCommand(showProjSettingsCmd, () => {
             // get the config
             const conf: string = vscode.workspace
                 .getConfiguration()
@@ -27,9 +27,17 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
             }
 
             if (!folderPath) {
-                folderPath = path.dirname(
-                    vscode.workspace.workspaceFile?.fsPath as string
-                );
+                if (vscode.workspace.workspaceFile?.fsPath !== undefined) {
+                    folderPath = path.dirname(
+                        vscode.workspace.workspaceFile?.fsPath as string
+                    );
+                } else if (vscode.workspace.workspaceFolders?.[0].uri.fsPath !== undefined) {
+                    // use project root
+                    folderPath = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+                } else {
+                    vscode.window.showErrorMessage('No root folder found');
+                    return;
+                }                
             }
 
             // get the uri of the file to open
@@ -42,9 +50,7 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
                     vscode.window.showTextDocument(doc);
                 },
                 (reason) => {
-                    vscode.window.showInformationMessage(
-                        `Error opening file ${openPath.fsPath}`
-                    );
+                    vscode.window.showErrorMessage(`Error opening file ${openPath.fsPath}`);
                     logger.appendLine(reason);
                 }
             );
@@ -52,14 +58,14 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
     );
 
     // create a new status bar item that we can now manage
-    myStatusBarItem = vscode.window.createStatusBarItem(
+    showProjectSettingsBtn = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Right,
         -1000000000
     );
-    myStatusBarItem.backgroundColor = '#ff0000';
-    myStatusBarItem.command = commandId;
-    myStatusBarItem.text = `$(settings)`;
-    myStatusBarItem.tooltip = 'Open settings.json';
-    subscriptions.push(myStatusBarItem);
-    myStatusBarItem.show();
+    showProjectSettingsBtn.backgroundColor = '#ff0000';
+    showProjectSettingsBtn.command = showProjSettingsCmd;
+    showProjectSettingsBtn.text = `$(settings)`;
+    showProjectSettingsBtn.tooltip = 'Open .vscode/settings.json';
+    subscriptions.push(showProjectSettingsBtn);
+    showProjectSettingsBtn.show();
 }
