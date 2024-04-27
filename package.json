@@ -5,7 +5,7 @@
 	"author": "Lucas Colombo <lucasncolombo@gmail.com>",
 	"publisher": "lucaslabs",
 	"repository": "https://github.com/lucas-labs/show-settings-vscode-extension",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
